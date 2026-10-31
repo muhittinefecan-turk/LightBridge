@@ -180,7 +180,7 @@ LightBridge çekirdeği tam kapsamlı test güvencesine sahiptir:
 
 **Muhittin Efecan Türk**  
 *Full Stack & iOS/macOS Developer*  
-- **GitHub:** [@muhittinefecanturk](https://github.com/muhittinefecanturk)
+- **GitHub:** [@muhittinefecanturk](https://github.com/muhittinefecan-turk)
 
 ---
 
