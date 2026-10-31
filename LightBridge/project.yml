@@ -1,0 +1,80 @@
+name: LightBridge
+options:
+  bundleIdPrefix: com.lightbridge
+  deploymentTarget: { macOS: "13.0", iOS: "16.0" }
+packages:
+  LightBridgeCore:
+    path: Packages/LightBridgeCore
+targets:
+  LightBridgeMac:
+    type: application
+    platform: macOS
+    sources: [Apps/Mac]
+    dependencies:
+      - package: LightBridgeCore
+      - target: LightBridgeShare
+        embed: true
+    entitlements:
+      path: Apps/Mac/LightBridgeMac.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-only: true
+        com.apple.security.application-groups: [group.com.lightbridge.app]
+    info:
+      path: Apps/Mac/Info.plist
+      properties:
+        CFBundleDisplayName: LightBridge
+        LSMinimumSystemVersion: "13.0"
+        CFBundleURLTypes:
+          - CFBundleURLName: com.lightbridge.app
+            CFBundleURLSchemes: [lightbridge]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lightbridge.app
+        GENERATE_INFOPLIST_FILE: NO
+
+  LightBridgeShare:
+    type: app-extension
+    platform: macOS
+    sources: [Apps/MacShare]
+    entitlements:
+      path: Apps/MacShare/LightBridgeShare.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-only: true
+        com.apple.security.application-groups: [group.com.lightbridge.app]
+    info:
+      path: Apps/MacShare/Info.plist
+      properties:
+        CFBundleDisplayName: LightBridge
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.share-services
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).ShareViewController
+          NSExtensionAttributes:
+            NSExtensionActivationRule:
+              NSExtensionActivationSupportsFileWithMaxCount: 1
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lightbridge.app.share
+        GENERATE_INFOPLIST_FILE: NO
+
+  LightBridgeIOS:
+    type: application
+    platform: iOS
+    sources: [Apps/iOS]
+    dependencies:
+      - package: LightBridgeCore
+    info:
+      path: Apps/iOS/Info.plist
+      properties:
+        CFBundleDisplayName: LightBridge
+        NSCameraUsageDescription: Mac ekranındaki LightBridge kodunu okumak için kamera gerekir.
+        NSPhotoLibraryAddUsageDescription: Alınan görselleri Fotoğraflar'a kaydetmek için.
+        UIFileSharingEnabled: true
+        LSSupportsOpeningDocumentsInPlace: true
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lightbridge.ios
+        GENERATE_INFOPLIST_FILE: NO
